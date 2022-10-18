@@ -176,8 +176,80 @@ marj_df %>%
 ```
 
 
+## Restaurant inspections...
+
+```{r}
+data("rest_inspec")
+```
+
+
+```{r}
+rest_inspec %>% 
+  group_by(boro, grade) %>% 
+  summarize(n_obs = n()) %>% 
+  pivot_wider(
+    names_from = grade,
+    values_from = n_obs
+  )
+```
+
+
+looking at grades of A/B/C
+
+```{r}
+rest_inspec <-
+  rest_inspec %>% 
+  filter(grade %in% c("A", "B", "C"), boro != "Missing") %>% 
+  mutate(boro = str_to_title(boro))
+
+rest_inspec %>% 
+  group_by(boro, grade) %>% 
+  summarize(n_obs = n()) %>% 
+  pivot_wider(
+    names_from = grade,
+    values_from = n_obs
+  )
+```
+
+let's find pizza places...
+
+```{r}
+rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>% 
+  group_by(boro) %>% 
+  summarize(n_pizza = n())
+
+
+rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>% 
+  mutate(boro = fct_infreq(boro)) %>% 
+  ggplot(aes(x = boro)) +
+  geom_bar()
+```
+
+
+```{r}
+rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>% 
+  mutate(
+    boro = fct_infreq(boro),
+    boro = str_replace(boro, "Manhattan", "The")) %>% 
+  ggplot(aes(x = boro)) +
+  geom_bar()
+```
+Notice that we removed the factor reordering that we made using fct_infreq
 
 
 
+Could also do:
 
+```{r}
+rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>% 
+  mutate(
+    boro = fct_infreq(boro),
+    boro = fct_recode(boro, "The City" = "Manhattan")) %>% 
+  ggplot(aes(x = boro)) +
+  geom_bar()
+```
 
