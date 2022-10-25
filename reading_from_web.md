@@ -102,3 +102,167 @@ reviews = tibble(
   text = review_text
 )
 ```
+
+## APIs
+
+``` r
+water_df = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") %>% 
+  content("parsed")
+```
+
+    ## Rows: 43 Columns: 4
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## dbl (4): year, new_york_city_population, nyc_consumption_million_gallons_per...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+APIs need to be modified – you need to tell them how much you want
+
+``` r
+brfss_df = 
+  GET(
+    "https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+    query = list("$limit" = 5000)) %>% 
+  content("parsed")
+```
+
+    ## Rows: 5000 Columns: 23
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (16): locationabbr, locationdesc, class, topic, question, response, data...
+    ## dbl  (6): year, sample_size, data_value, confidence_limit_low, confidence_li...
+    ## lgl  (1): locationid
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+pokemon
+
+``` r
+poke = 
+  GET("http://pokeapi.co/api/v2/pokemon/1") %>%
+  content()
+
+names(poke)
+```
+
+    ##  [1] "abilities"                "base_experience"         
+    ##  [3] "forms"                    "game_indices"            
+    ##  [5] "height"                   "held_items"              
+    ##  [7] "id"                       "is_default"              
+    ##  [9] "location_area_encounters" "moves"                   
+    ## [11] "name"                     "order"                   
+    ## [13] "past_types"               "species"                 
+    ## [15] "sprites"                  "stats"                   
+    ## [17] "types"                    "weight"
+
+``` r
+poke[["species"]]
+```
+
+    ## $name
+    ## [1] "bulbasaur"
+    ## 
+    ## $url
+    ## [1] "https://pokeapi.co/api/v2/pokemon-species/1/"
+
+``` r
+poke[["stats"]]
+```
+
+    ## [[1]]
+    ## [[1]]$base_stat
+    ## [1] 45
+    ## 
+    ## [[1]]$effort
+    ## [1] 0
+    ## 
+    ## [[1]]$stat
+    ## [[1]]$stat$name
+    ## [1] "hp"
+    ## 
+    ## [[1]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/1/"
+    ## 
+    ## 
+    ## 
+    ## [[2]]
+    ## [[2]]$base_stat
+    ## [1] 49
+    ## 
+    ## [[2]]$effort
+    ## [1] 0
+    ## 
+    ## [[2]]$stat
+    ## [[2]]$stat$name
+    ## [1] "attack"
+    ## 
+    ## [[2]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/2/"
+    ## 
+    ## 
+    ## 
+    ## [[3]]
+    ## [[3]]$base_stat
+    ## [1] 49
+    ## 
+    ## [[3]]$effort
+    ## [1] 0
+    ## 
+    ## [[3]]$stat
+    ## [[3]]$stat$name
+    ## [1] "defense"
+    ## 
+    ## [[3]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/3/"
+    ## 
+    ## 
+    ## 
+    ## [[4]]
+    ## [[4]]$base_stat
+    ## [1] 65
+    ## 
+    ## [[4]]$effort
+    ## [1] 1
+    ## 
+    ## [[4]]$stat
+    ## [[4]]$stat$name
+    ## [1] "special-attack"
+    ## 
+    ## [[4]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/4/"
+    ## 
+    ## 
+    ## 
+    ## [[5]]
+    ## [[5]]$base_stat
+    ## [1] 65
+    ## 
+    ## [[5]]$effort
+    ## [1] 0
+    ## 
+    ## [[5]]$stat
+    ## [[5]]$stat$name
+    ## [1] "special-defense"
+    ## 
+    ## [[5]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/5/"
+    ## 
+    ## 
+    ## 
+    ## [[6]]
+    ## [[6]]$base_stat
+    ## [1] 45
+    ## 
+    ## [[6]]$effort
+    ## [1] 0
+    ## 
+    ## [[6]]$stat
+    ## [[6]]$stat$name
+    ## [1] "speed"
+    ## 
+    ## [[6]]$stat$url
+    ## [1] "https://pokeapi.co/api/v2/stat/6/"
