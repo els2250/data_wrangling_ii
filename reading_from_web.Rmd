@@ -45,3 +45,67 @@ drug_use_html %>%
 Note showed up as the first row -- needed to remove the first row: slice(-1)
 
 
+
+## SW data
+
+```{r}
+url = "https://www.imdb.com/list/ls070150896/"
+
+swm_html = read_html(url)
+```
+
+How do I get the stuff i want
+
+```{r}
+sw_titles = 
+  swm_html %>% 
+  html_elements(".lister-item-header a") %>% 
+  html_text()
+
+sw_runtime = 
+  swm_html %>% 
+  html_elements(".runtime") %>% 
+  html_text()
+
+sw_money = 
+  swm_html %>% 
+  html_elements(".text-small:nth-child(7) span:nth-child(5)") %>% 
+  html_text()
+
+sw_df = 
+  tibble(
+    title = sw_titles,
+    runtime = sw_runtime,
+    money = sw_money
+  )
+```
+
+Let me just show Napoleon Dynamite ...
+
+```{r}
+url = "https://www.amazon.com/product-reviews/B00005JNBQ/ref=cm_cr_arp_d_viewopt_rvwer?ie=UTF8&reviewerType=avp_only_reviews&sortBy=recent&pageNumber=2"
+
+dynamite_html = read_html(url)
+
+review_titles = 
+  dynamite_html %>%
+  html_elements(".a-text-bold span") %>%
+  html_text()
+
+review_stars = 
+  dynamite_html %>%
+  html_elements("#cm_cr-review_list .review-rating") %>%
+  html_text()
+
+review_text = 
+  dynamite_html %>%
+  html_elements(".review-text-content span") %>%
+  html_text()
+
+reviews = tibble(
+  title = review_titles,
+  stars = review_stars,
+  text = review_text
+)
+```
+
